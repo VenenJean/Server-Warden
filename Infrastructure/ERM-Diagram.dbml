@@ -1,0 +1,54 @@
+Table Guild {
+  ID int [pk]
+  Name varchar(100)
+  Description varchar(120)
+  LastBackup datetime
+}
+
+Table Member {
+  ID int [pk, not null, unique]
+  Approved bool [not null]
+}
+
+Table MemberRole {
+  Member_ID int [ref: > Member.ID]
+  Role_ID int [ref: > Role.ID]
+}
+
+Table Category {
+  ID int [pk]
+  Name varchar(100) [not null]
+  Guild_ID int [ref: > Guild.ID]
+}
+
+Table Channel {
+  ID int [pk]
+  Name varchar(100) [not null]
+  Type varchar [not null]
+  Category_ID int [ref: > Category.ID]
+}
+
+Table Message {
+  ID int [pk]
+  Content varchar(4000) [not null]
+  Channel_ID int [ref: > Channel.ID]
+}
+
+Table Role {
+  ID int [pk]
+  Name varchar(100) [not null]
+  Color ulong
+  IsHoisted bool
+  IsMentionable bool
+  BitwisePermissionFlag ulong [not null]
+  Guild_ID int [ref: > Guild.ID]
+}
+
+Table OverriddenRole {
+  ID int [pk]
+  RoleName varchar
+  AllowValue bigint [not null]
+  DenyValue bigint [not null]
+  Category_ID int [ref: > Category.ID, not null]
+  Channel_ID int [ref: > Channel.ID]
+}
